@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ADMINREST</string>
+
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="loginButton">Iniciar sesión</string>
+
+    <string name="forgotPassword">¿Olvidaste tu contraseña?</string>
+
+    <string name="registerText1">Es hora de hacer crecer tu establecimiento.</string>
+    <string name="registerText2">Registrate ya.</string>
+    <string name="registerButton">Crear una cuenta</string>
+</resources>
