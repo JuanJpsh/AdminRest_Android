@@ -1,6 +1,5 @@
 package com.example.adminrest.ui
 
-import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,23 +15,24 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.adminrest.ui.theme.ADMINRESTTheme
 import com.example.adminrest.R
 
 @Composable
 fun LoginScreen(
+    onLoginButtonClicked: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(modifier = modifier, color = MaterialTheme.colors.background) {
@@ -45,7 +45,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.weight(1f))
             Logo(modifier)
             Spacer(modifier = Modifier.weight(1f))
-            LoginForm(modifier)
+            LoginForm(onLoginButtonClicked, modifier)
             forgotPassword(modifier)
             Spacer(modifier = Modifier.weight(1f))
             register(modifier)
@@ -54,61 +54,50 @@ fun LoginScreen(
 }
 
 @Composable
-fun LoginForm(modifier: Modifier) {
-    var email by remember { mutableStateOf("") }
-    var showEmailError by remember { mutableStateOf(false) }
-    var isFocusedEmail by remember { mutableStateOf(false) }
+fun LoginForm(
+    onLoginButtonClicked: (String) -> Unit,
+    modifier: Modifier,
+    loginViewModel: LoginViewModel = viewModel()
+) {
+    val loginUiState by loginViewModel.uiState.collectAsState()
 
     TextField(
-        value = email,
-        onValueChange = { email = it },
-        label = { Text(stringResource(R.string.email)) },
-        isError = showEmailError,
+        value = loginUiState.email,
+        onValueChange = { loginViewModel.updateEmail(it) },
+        label = { Text(stringResource(R.string.lbl_email)) },
+        isError = (loginUiState.showEmailError && loginUiState.emailHasError),
         modifier = Modifier
             .fillMaxWidth()
-            .onFocusEvent { focusEvent ->
-                if (!focusEvent.isFocused && isFocusedEmail) {
-                    if (getEmailError(email) == "") showEmailError = false
-                    else showEmailError = true
-                }
-                isFocusedEmail = focusEvent.isFocused
-            },
+            .onFocusEvent { focusEvent -> loginViewModel.focusEventEmailField(focusEvent) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
     )
 
     Text(
-        text = if (showEmailError) getEmailError(email) else "",
+        text = if (loginUiState.showEmailError && loginUiState.emailHasError)
+            loginUiState.emailError else "",
         color = MaterialTheme.colors.error,
         style = MaterialTheme.typography.caption,
     )
 
     Spacer(Modifier.height(15.dp))
 
-    var password by remember { mutableStateOf("") }
-    var showPasswordError by remember { mutableStateOf(false) }
-    var isFocusedPassword by remember { mutableStateOf(false) }
-
     TextField(
-        value = password,
-        onValueChange = { password = it },
-        label = { Text(stringResource(R.string.password)) },
-        isError = showPasswordError,
+        value = loginUiState.password,
+        onValueChange = { loginViewModel.updatePassword(it) },
+        label = { Text(stringResource(R.string.lbl_password)) },
+        isError = (loginUiState.showPasswordError && loginUiState.passwordHasError),
+        visualTransformation = PasswordVisualTransformation(),
         modifier = Modifier
             .fillMaxWidth()
-            .onFocusEvent { focusEvent ->
-                if (!focusEvent.isFocused && isFocusedPassword) {
-                    if (getPasswordError(password) == "") showPasswordError = false
-                    else showPasswordError = true
-                }
-                isFocusedPassword = focusEvent.isFocused
-            },
+            .onFocusEvent { focusEvent -> loginViewModel.focusEventPasswordField(focusEvent) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
     )
 
     Text(
-        text = if (showPasswordError) getPasswordError(password) else "",
+        text = if (loginUiState.showPasswordError && loginUiState.passwordHasError)
+            loginUiState.passwordError else "",
         color = MaterialTheme.colors.error,
         style = MaterialTheme.typography.caption,
     )
@@ -116,45 +105,21 @@ fun LoginForm(modifier: Modifier) {
     Spacer(Modifier.height(8.dp))
 
     Button(
-        onClick = {
-            val emailError = getEmailError(email)
-            val passwordError = getPasswordError(password)
-
-            if (emailError == "" && passwordError == ""){
-
-            } else {
-                if (emailError != "") showEmailError = true
-                if (passwordError != "") showPasswordError = true
-            }
-        },
-        modifier.fillMaxWidth()) {
-        Text(stringResource(R.string.loginButton))
+        onClick = { if (loginViewModel.checkCredentials()) onLoginButtonClicked("123") },
+        modifier.fillMaxWidth())
+    {
+        Text(stringResource(R.string.btn_login))
     }
 }
-
-private fun getEmailError(email: String): String {
-    if (email.isEmpty()) return "Este campo es obligatorio"
-    val pattern = Patterns.EMAIL_ADDRESS
-    if (!pattern.matcher(email).matches()) return "Correo electrónico invalido"
-    return ""
-}
-
-private fun getPasswordError(password: String): String {
-    if (password.isEmpty()) return "Este campo es obligatorio"
-    val pattern = Regex(".{8,}")
-    if (!pattern.matches(password)) return "Contraseña invalida"
-    return ""
-}
-
 @Composable
 fun forgotPassword(modifier: Modifier) {
-    Text(stringResource(R.string.forgotPassword), modifier)
+    Text(stringResource(R.string.lnk_forgotPassword), modifier)
 }
 
 @Composable
 fun register(modifier: Modifier) {
-    Text(stringResource(R.string.registerText1), modifier)
-    Text(stringResource(R.string.registerText2), modifier)
+    Text(stringResource(R.string.txt_register1), modifier)
+    Text(stringResource(R.string.txt_register2), modifier)
     Spacer(Modifier.height(12.dp))
     Button(
         onClick = { /*TODO*/ },
@@ -163,7 +128,7 @@ fun register(modifier: Modifier) {
             backgroundColor = MaterialTheme.colors.secondary,
         )
     ) {
-        Text(stringResource(R.string.registerButton))
+        Text(stringResource(R.string.btn_register))
     }
 }
 
@@ -182,6 +147,8 @@ fun Logo(modifier: Modifier) {
 @Composable
 fun LoginPreview() {
     ADMINRESTTheme {
-        LoginScreen()
+        LoginScreen(
+            onLoginButtonClicked = {}
+        )
     }
 }

@@ -3,15 +3,16 @@
     <string name="app_login">Iniciar sesión</string>
     <string name="app_blank">En blanco</string>
 
+    <string name="lbl_email">Correo electrónico</string>
+    <string name="lbl_password">Contraseña</string>
+
+    <string name="btn_login">Iniciar sesión</string>
     <string name="btn_back">Atras</string>
+    <string name="btn_register">Crear una cuenta</string>
 
-    <string name="email">Correo electrónico</string>
-    <string name="password">Contraseña</string>
-    <string name="loginButton">Iniciar sesión</string>
+    <string name="lnk_forgotPassword">¿Olvidaste tu contraseña?</string>
 
-    <string name="forgotPassword">¿Olvidaste tu contraseña?</string>
+    <string name="txt_register1">Es hora de hacer crecer tu establecimiento.</string>
+    <string name="txt_register2">Registrate ya.</string>
 
-    <string name="registerText1">Es hora de hacer crecer tu establecimiento.</string>
-    <string name="registerText2">Registrate ya.</string>
-    <string name="registerButton">Crear una cuenta</string>
 </resources>

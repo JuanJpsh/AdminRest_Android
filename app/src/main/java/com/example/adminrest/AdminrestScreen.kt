@@ -16,7 +16,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -24,6 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.adminrest.ui.BlankScreen
+import com.example.adminrest.ui.BlankViewModel
 import com.example.adminrest.ui.LoginScreen
 import com.example.adminrest.ui.LoginViewModel
 
@@ -57,7 +57,7 @@ fun AdminrestAppBar(
 
 @Composable
 fun AdminrestApp(
-    viewModel: LoginViewModel = viewModel(),
+    viewModel: BlankViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -85,8 +85,10 @@ backStackEntry?.destination?.route ?:AdminrestScreen.Login.name
         ) {
             composable(route = AdminrestScreen.Login.name) {
                 LoginScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
+                    onLoginButtonClicked = {
+                        navController.navigate(AdminrestScreen.Blank.name)
+                    },
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
             composable(route = AdminrestScreen.Blank.name) {
