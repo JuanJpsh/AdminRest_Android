@@ -1,21 +1,29 @@
 package com.example.adminrest
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -25,11 +33,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.adminrest.ui.BlankScreen
 import com.example.adminrest.ui.BlankViewModel
 import com.example.adminrest.ui.LoginScreen
-import com.example.adminrest.ui.LoginViewModel
+import com.example.adminrest.ui.RegisterScreen
 
 enum class AdminrestScreen(@StringRes val title: Int) {
-    Login(title = R.string.app_login),
-    Blank(title = R.string.app_blank)
+    Login(title = R.string.nav_login),
+    Register(title = R.string.nav_register),
+    Subscription(title = R.string.nav_subscription),
+    Payment(title = R.string.nav_payment),
+    Blank(title = R.string.nav_blank),
 }
 
 @Composable
@@ -40,14 +51,35 @@ fun AdminrestAppBar(
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
-        title = { Text(stringResource(currentScreen.title)) },
+        title = {
+            if (currentScreen != AdminrestScreen.Login){
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(R.string.btn_login),
+                        style = TextStyle(fontSize = 16.sp),
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .clickable {
+                                navigateUp()
+                            }
+                    )
+                }
+            } },
         modifier = modifier,
         navigationIcon = {
             if(canNavigateBack) {
-                IconButton(onClick = navigateUp) {
+                IconButton(
+                    onClick = {},
+                    modifier = Modifier.padding(start = 10.dp)
+                ) {
                     Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.btn_back)
+                        painter = painterResource(R.drawable.cream_logo),
+                        contentDescription = stringResource(R.string.des_logo),
+                        modifier = Modifier.size(50.dp)
                     )
                 }
             }
@@ -74,7 +106,7 @@ backStackEntry?.destination?.route ?:AdminrestScreen.Login.name
                     navigateUp = { navController.navigateUp() }
                 )
             }
-        }
+        },
     ) {innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
 
@@ -88,6 +120,9 @@ backStackEntry?.destination?.route ?:AdminrestScreen.Login.name
                     onLoginButtonClicked = {
                         navController.navigate(AdminrestScreen.Blank.name)
                     },
+                    onRegisterButtonClicked = {
+                        navController.navigate(AdminrestScreen.Register.name)
+                    },
                     modifier = Modifier.fillMaxSize(),
                 )
             }
@@ -95,7 +130,14 @@ backStackEntry?.destination?.route ?:AdminrestScreen.Login.name
                 BlankScreen(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(dimensionResource(R.dimen.padding_medium))
+                )
+            }
+            composable(route = AdminrestScreen.Register.name) {
+                RegisterScreen(
+                    onSubscriptionButtonClicked = {
+                        navController.navigate(AdminrestScreen.Blank.name)
+                    },
+                    modifier = Modifier.fillMaxSize()
                 )
             }
         }

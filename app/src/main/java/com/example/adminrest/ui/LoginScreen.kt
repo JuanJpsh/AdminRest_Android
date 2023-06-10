@@ -33,22 +33,22 @@ import com.example.adminrest.R
 @Composable
 fun LoginScreen(
     onLoginButtonClicked: (String) -> Unit,
+    onRegisterButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(modifier = modifier, color = MaterialTheme.colors.background) {
         Column(
             modifier = Modifier
                 .padding(32.dp)
-                .padding(bottom = 25.dp)
         ) {
-            val modifier = Modifier.align(Alignment.CenterHorizontally)
+            val centerModifier = Modifier.align(Alignment.CenterHorizontally)
             Spacer(modifier = Modifier.weight(1f))
-            Logo(modifier)
+            Logo(centerModifier)
             Spacer(modifier = Modifier.weight(1f))
-            LoginForm(onLoginButtonClicked, modifier)
-            forgotPassword(modifier)
+            LoginForm(onLoginButtonClicked, centerModifier)
+            ForgotPassword(centerModifier)
             Spacer(modifier = Modifier.weight(1f))
-            register(modifier)
+            Register(onRegisterButtonClicked = onRegisterButtonClicked, modifier = centerModifier)
         }
     }
 }
@@ -112,17 +112,20 @@ fun LoginForm(
     }
 }
 @Composable
-fun forgotPassword(modifier: Modifier) {
+fun ForgotPassword(modifier: Modifier) {
     Text(stringResource(R.string.lnk_forgotPassword), modifier)
 }
 
 @Composable
-fun register(modifier: Modifier) {
+fun Register(
+    modifier: Modifier,
+    onRegisterButtonClicked: () -> Unit
+) {
     Text(stringResource(R.string.txt_register1), modifier)
     Text(stringResource(R.string.txt_register2), modifier)
-    Spacer(Modifier.height(12.dp))
+    Spacer(Modifier.height(6.dp))
     Button(
-        onClick = { /*TODO*/ },
+        onClick = { onRegisterButtonClicked() },
         modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.secondary,
@@ -148,7 +151,8 @@ fun Logo(modifier: Modifier) {
 fun LoginPreview() {
     ADMINRESTTheme {
         LoginScreen(
-            onLoginButtonClicked = {}
+            onLoginButtonClicked = {},
+            onRegisterButtonClicked = {}
         )
     }
 }

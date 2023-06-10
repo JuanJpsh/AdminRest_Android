@@ -9,7 +9,6 @@ import com.example.adminrest.ui.theme.ADMINRESTTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             ADMINRESTTheme {
                 AdminrestApp()

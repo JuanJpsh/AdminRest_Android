@@ -88,7 +88,7 @@ class LoginViewModel() : ViewModel() {
 
         if (emailError == "" && passwordError == ""){
             return true
-        } else if (!uiState.value.showEmailError || !uiState.value.showPasswordError) {
+        } else {
             val emailHasError = (emailError != "")
             val passwordHasError = (passwordError != "")
 
