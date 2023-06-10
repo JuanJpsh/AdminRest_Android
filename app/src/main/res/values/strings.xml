@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">ADMINREST</string>
+    <string name="app_login">Iniciar sesión</string>
+    <string name="app_blank">En blanco</string>
+
+    <string name="btn_back">Atras</string>
 
     <string name="email">Correo electrónico</string>
     <string name="password">Contraseña</string>
