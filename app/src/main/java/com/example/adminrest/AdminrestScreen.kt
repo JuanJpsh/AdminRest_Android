@@ -128,8 +128,8 @@ backStackEntry?.destination?.route ?:AdminrestScreen.Login.name
             }
             composable(route = AdminrestScreen.Blank.name) {
                 BlankScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
+                    /*modifier = Modifier
+                        .fillMaxSize()*/
                 )
             }
             composable(route = AdminrestScreen.Register.name) {
