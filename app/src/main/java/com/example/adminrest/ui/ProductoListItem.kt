@@ -43,7 +43,7 @@ fun ProductoListItem(productos: Productos) {
                     .align(Alignment.CenterVertically)
             ) {
                 Text(text = productos.nombre, style = typography.h6)
-                Text(text = "VER DETALLE", style = typography.caption)
+                Text(text = "Precio: 20.000$", style = typography.caption)
             }
         }
     }
