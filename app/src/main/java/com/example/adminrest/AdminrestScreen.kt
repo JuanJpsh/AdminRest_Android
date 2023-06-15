@@ -33,7 +33,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.adminrest.ui.BlankScreen
 import com.example.adminrest.ui.BlankViewModel
 import com.example.adminrest.ui.LoginScreen
+import com.example.adminrest.ui.PaymentScreen
 import com.example.adminrest.ui.RegisterScreen
+import com.example.adminrest.ui.SubscriptionScreen
 
 enum class AdminrestScreen(@StringRes val title: Int) {
     Login(title = R.string.nav_login),
@@ -134,6 +136,22 @@ backStackEntry?.destination?.route ?:AdminrestScreen.Login.name
             }
             composable(route = AdminrestScreen.Register.name) {
                 RegisterScreen(
+                    onSubscriptionButtonClicked = {
+                        navController.navigate(AdminrestScreen.Subscription.name)
+                    },
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            composable(route = AdminrestScreen.Subscription.name) {
+                SubscriptionScreen(
+                    onSubscriptionButtonClicked = {
+                        navController.navigate(AdminrestScreen.Payment.name)
+                    },
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            composable(route = AdminrestScreen.Payment.name) {
+                PaymentScreen(
                     onSubscriptionButtonClicked = {
                         navController.navigate(AdminrestScreen.Blank.name)
                     },

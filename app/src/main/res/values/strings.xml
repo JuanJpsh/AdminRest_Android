@@ -29,4 +29,23 @@
     <string name="lbl_user_lastname">Apellido</string>
     <string name="lbl_repeat_password">Repetir la contraseña</string>
     <string name="title_activity_profile">ProfileActivity</string>
+
+    <string name="txt_subscription_v1">PASO 1 DE 2</string>
+    <string name="txt_subscription_v2">Seleccione el plan ideal para ti</string>
+    <string name="txt_subscription_v3">Gestiona tus restaurantes.</string>
+    <string name="txt_subscription_v4">Puedes cambiar de plan o cancelar cuando quiereas.</string>
+    <string name="txt_subscription_v5">Actualizaciones que mejoran la gestion de tus restaurantes</string>
+    <string name="txt_subscription_v6">El servicio de solicitud de domicilios te permite tener un link publico que podráa compartir en tus redes o paginos en internet donde tus clientes tendran la opción de solicitar domicilios.</string>
+
+
+    <string name="txt_payment_v1">PASO 2 DE 2</string>
+    <string name="txt_payment_v2">Metodo de Pago</string>
+    <string name="txt_payment_v3">Nombre del titular</string>
+    <string name="txt_payment_v4">Apellido del titular</string>
+    <string name="txt_payment_v5">Nùmero de tarjeta</string>
+    <string name="txt_payment_v6">Fecha de vencimiento (MM/AA)</string>
+    <string name="txt_payment_v7">Codigo de seguridad (CVV)</string>
+    <string name="txt_payment_v8">Pagar</string>
+    <string name="txt_payment_v9">A continuación vas a rializar el pago de la suscripcion adminrest Recuerdo que puedes camblar tu suscripcion cuando lo desees.</string>
+    <string name="txt_payment_v10">Tu información du pago estará segura. Leer más</string>
 </resources>
